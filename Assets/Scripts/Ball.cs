@@ -14,6 +14,12 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+        //Starts in a random position of the screen
+        float randomX = Random.Range(-mainCamera.orthographicSize * mainCamera.aspect, mainCamera.orthographicSize * mainCamera.aspect);
+        float randomY = Random.Range(-mainCamera.orthographicSize, mainCamera.orthographicSize);
+        transform.position = new Vector2(randomX, randomY);
+
         rb.AddForce(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 15f, ForceMode2D.Impulse);
     }
 
@@ -41,6 +47,7 @@ public class Ball : MonoBehaviour
 
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
+            GameManager.instance.ScoreUp();
             Destroy(gameObject);
         }
     }
