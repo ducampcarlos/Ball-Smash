@@ -54,4 +54,12 @@ public class BallSpawner : MonoBehaviour
             SpawnBallSet();
         }
     }
+
+    public void DestroyAllBalls()
+    {
+        foreach (GameObject ball in currentBalls)
+        {
+            Destroy(ball);
+        }
+    }
 }

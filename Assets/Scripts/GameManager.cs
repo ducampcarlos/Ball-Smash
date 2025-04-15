@@ -1,52 +1,30 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    int score = 0;
-
-    public GameObject winText;
+    public TextMeshProUGUI gameOverText;
     public GameObject restartButton;
 
-    private void Awake()
+    void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        if (instance == null) { instance = this; } else { Destroy(gameObject); }
     }
 
-    private void Start()
+    void Start()
     {
-        winText.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
         restartButton.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GameOver(float finalTime)
     {
-        
-    }
-
-    public void ScoreUp()
-    {
-        score++;
-        if (score >= 4)
-        {
-            Win();
-        }
-    }
-
-    void Win()
-    {
-        winText.SetActive(true);
+        gameOverText.text = "Game Over! You survived " + finalTime.ToString("F1") + " seconds.";
+        gameOverText.gameObject.SetActive(true);
         restartButton.SetActive(true);
+        BallSpawner.instance.DestroyAllBalls();
     }
 
     public void Restart()

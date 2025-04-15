@@ -20,7 +20,7 @@ public class TimerManager : MonoBehaviour
         {
             countdown -= Time.deltaTime;
             totalSurvivalTime = 30f + (Time.timeSinceLevelLoad - 30f);
-            timerText.text = "Time: " + Mathf.Max(0, Mathf.Round(countdown)) + "s";
+            timerText.text = Mathf.Max(0, Mathf.Round(countdown)) + "s";
         }
         else
         {
@@ -35,8 +35,6 @@ public class TimerManager : MonoBehaviour
 
     void GameOver()
     {
-        // Aquí se muestra el tiempo total sobrevivido.
-        Debug.Log("Game Over! Sobreviviste: " + (30f + (Time.timeSinceLevelLoad - 30f)) + " segundos");
-        // Se pueden activar pantallas finales y otros efectos.
+        GameManager.instance.GameOver(totalSurvivalTime);
     }
 }
