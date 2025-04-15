@@ -1,26 +1,60 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum BallCategory { Small, Medium, Large, Huge }
+
 public class Ball : MonoBehaviour
 {
     private Camera mainCamera;
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    public BallCategory category;
+    private float baseSpeed;
+    private float addedTime;
+    private Color ballColor;
+    private Vector3 ballScale;
 
-    private void Awake()
+    public void InitializeBall(float speedMultiplier, Rect spawnArea)
     {
         mainCamera = Camera.main;
-    }
-
-    private void Start()
-    {
         rb = GetComponent<Rigidbody2D>();
-        
-        //Starts in a random position of the screen
-        float randomX = Random.Range(-mainCamera.orthographicSize * mainCamera.aspect, mainCamera.orthographicSize * mainCamera.aspect);
-        float randomY = Random.Range(-mainCamera.orthographicSize, mainCamera.orthographicSize);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        float randomX = Random.Range(spawnArea.xMin, spawnArea.xMax);
+        float randomY = Random.Range(spawnArea.yMin, spawnArea.yMax);
         transform.position = new Vector2(randomX, randomY);
-
-        rb.AddForce(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 15f, ForceMode2D.Impulse);
+        category = (BallCategory)Random.Range(0, 4);
+        switch (category)
+        {
+            case BallCategory.Small:
+                baseSpeed = 15f;
+                addedTime = 3f;
+                ballColor = Color.magenta;
+                ballScale = new Vector3(0.8f, 0.8f, 1f);
+                break;
+            case BallCategory.Medium:
+                baseSpeed = 12f;
+                addedTime = 2f;
+                ballColor = Color.green;
+                ballScale = new Vector3(1f, 1f, 1f);
+                break;
+            case BallCategory.Large:
+                baseSpeed = 9f;
+                addedTime = 1.5f;
+                ballColor = Color.white;
+                ballScale = new Vector3(1.2f, 1.2f, 1f);
+                break;
+            case BallCategory.Huge:
+                baseSpeed = 6f;
+                addedTime = 1f;
+                ballColor = Color.yellow;
+                ballScale = new Vector3(1.5f, 1.5f, 1f);
+                break;
+        }
+        baseSpeed *= speedMultiplier;
+        if (spriteRenderer != null) { spriteRenderer.color = ballColor; }
+        transform.localScale = ballScale;
+        Vector2 direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        rb.linearVelocity = direction * baseSpeed;
     }
 
     void Update()
@@ -42,14 +76,21 @@ public class Ball : MonoBehaviour
 
     private void HandleTouchOrClick(Vector2 screenPosition)
     {
-        Vector2 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-
-        if (hit.collider != null && hit.collider.gameObject == this.gameObject)
+        if (hit.collider != null && hit.collider.gameObject == gameObject)
         {
-            GameManager.instance.ScoreUp();
+            TimerManager.instance.AddTime(addedTime);
+            BallSpawner.instance.NotifyBallDestroyed(gameObject);
             Destroy(gameObject);
         }
     }
 
+    void FixedUpdate()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * baseSpeed;
+        }
+    }
 }
