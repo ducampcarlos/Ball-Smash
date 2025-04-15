@@ -11,6 +11,7 @@ public class BallSpawner : MonoBehaviour
     public BoxCollider2D rightBoundary;
     public BoxCollider2D topBoundary;
     public BoxCollider2D bottomBoundary;
+    public AudioClip clearSetSFX;
     private List<GameObject> currentBalls = new List<GameObject>();
 
     void Awake()
@@ -50,6 +51,7 @@ public class BallSpawner : MonoBehaviour
         currentBalls.Remove(ball);
         if (currentBalls.Count == 0)
         {
+            AudioManager.Instance.PlaySFX(clearSetSFX);
             speedMultiplier += 0.2f;
             SpawnBallSet();
         }

@@ -13,6 +13,7 @@ public class Ball : MonoBehaviour
     private float addedTime;
     private Color ballColor;
     private Vector3 ballScale;
+    public AudioClip[] ballHitSFX;
 
     public void InitializeBall(float speedMultiplier, Rect spawnArea)
     {
@@ -34,7 +35,7 @@ public class Ball : MonoBehaviour
             case BallCategory.Medium:
                 baseSpeed = 12f;
                 addedTime = 2f;
-                ballColor = Color.green;
+                ballColor = Color.cyan;
                 ballScale = new Vector3(1f, 1f, 1f);
                 break;
             case BallCategory.Large:
@@ -51,7 +52,10 @@ public class Ball : MonoBehaviour
                 break;
         }
         baseSpeed *= speedMultiplier;
-        if (spriteRenderer != null) { spriteRenderer.color = ballColor; }
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = ballColor;
+        }
         transform.localScale = ballScale;
         Vector2 direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         rb.linearVelocity = direction * baseSpeed;
@@ -80,6 +84,7 @@ public class Ball : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
         if (hit.collider != null && hit.collider.gameObject == gameObject)
         {
+            AudioManager.Instance.PlaySFX(ballHitSFX[Random.Range(0, ballHitSFX.Length)]);
             TimerManager.instance.AddTime(addedTime);
             BallSpawner.instance.NotifyBallDestroyed(gameObject);
             Destroy(gameObject);

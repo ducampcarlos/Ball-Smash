@@ -165,3 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c1fc243289f1f4ba90cbb90691a303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 0
+  ballHitSFX:
+  - {fileID: 8300000, guid: b0e808be52311b84a8e2187ca2301942, type: 3}
+  - {fileID: 8300000, guid: 0e572b401eae72d499af02a4fac140f1, type: 3}
+  - {fileID: 8300000, guid: db215035285e8db498ff9d1040c6d3aa, type: 3}
+  - {fileID: 8300000, guid: bec5c4a65dda64e468ccb8f382cd9016, type: 3}
+  - {fileID: 8300000, guid: d40768647e0d74d43837c2e4142d1378, type: 3}
