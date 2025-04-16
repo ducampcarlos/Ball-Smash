@@ -22,7 +22,7 @@ public class BallSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnBallSet();
+        Invoke("SpawnBallSet", 0.5f);
     }
 
     Rect GetSpawnArea()

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
@@ -109,5 +110,13 @@ public class AudioManager : MonoBehaviour
         }
 
         audioMixer.SetFloat(MUSIC_PARAM, targetVolume);
+    }
+
+    public void RestoreMusicVolume()
+    {
+        if (audioMixer != null)
+        {
+            audioMixer.SetFloat(MUSIC_PARAM, 0f);
+        }
     }
 }

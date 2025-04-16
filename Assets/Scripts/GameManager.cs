@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         gameOverText.gameObject.SetActive(false);
         restartButton.SetActive(false);
+        AudioManager.Instance.RestoreMusicVolume();
     }
 
     public void GameOver(float finalTime)
