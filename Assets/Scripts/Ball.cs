@@ -79,19 +79,17 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-#if UNITY_ANDROID || UNITY_IOS
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
         {
             Vector2 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
             HandleTouchOrClick(touchPosition);
         }
-#else
+
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             HandleTouchOrClick(mousePosition);
         }
-#endif
     }
 
     private void HandleTouchOrClick(Vector2 screenPosition)
