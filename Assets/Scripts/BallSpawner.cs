@@ -12,6 +12,7 @@ public class BallSpawner : MonoBehaviour
     public BoxCollider2D topBoundary;
     public BoxCollider2D bottomBoundary;
     public AudioClip clearSetSFX;
+    public float badBallChance = 0.3f;
     private List<GameObject> currentBalls = new List<GameObject>();
 
     void Awake()
@@ -41,14 +42,37 @@ public class BallSpawner : MonoBehaviour
         {
             GameObject ball = Instantiate(ballPrefab);
             Ball ballScript = ball.GetComponent<Ball>();
-            ballScript.InitializeBall(speedMultiplier, spawnArea);
+            ballScript.InitializeBall(speedMultiplier, spawnArea, false);
             currentBalls.Add(ball);
+        }
+        if (Random.value < badBallChance)
+        {
+            GameObject badBall = Instantiate(ballPrefab);
+            Ball badBallScript = badBall.GetComponent<Ball>();
+            badBallScript.InitializeBall(speedMultiplier, spawnArea, true);
+            currentBalls.Add(badBall);
         }
     }
 
     public void NotifyBallDestroyed(GameObject ball)
     {
-        currentBalls.Remove(ball);
+        if (currentBalls.Contains(ball))
+            currentBalls.Remove(ball);
+        bool normalExists = false;
+        GameObject badBallObj = null;
+        foreach (GameObject b in currentBalls)
+        {
+            Ball ballScript = b.GetComponent<Ball>();
+            if (ballScript.isBadBall)
+                badBallObj = b;
+            else
+                normalExists = true;
+        }
+        if (!normalExists && badBallObj != null)
+        {
+            currentBalls.Remove(badBallObj);
+            Destroy(badBallObj);
+        }
         if (currentBalls.Count == 0)
         {
             AudioManager.Instance.PlaySFX(clearSetSFX);

@@ -7,6 +7,7 @@ public class TimerManager : MonoBehaviour
     public float countdown = 30f; 
     public TextMeshProUGUI timerText;
     private float totalSurvivalTime = 0f;
+    private bool isGameOver = false;
 
     void Awake()
     {
@@ -16,15 +17,20 @@ public class TimerManager : MonoBehaviour
 
     void Update()
     {
-        if (countdown > 0)
+        if (!isGameOver)
         {
-            countdown -= Time.deltaTime;
-            totalSurvivalTime = 30f + (Time.timeSinceLevelLoad - 30f);
-            timerText.text = Mathf.Max(0, Mathf.Round(countdown)) + "s";
-        }
-        else
-        {
-            GameOver();
+            if (countdown > 0)
+            {
+                countdown -= Time.deltaTime;
+                totalSurvivalTime = 30f + (Time.timeSinceLevelLoad - 30f);
+                timerText.text = Mathf.Max(0, Mathf.Round(countdown)) + "s";
+            }
+            else
+            {
+
+                isGameOver = true;
+                GameOver();
+            }
         }
     }
 
