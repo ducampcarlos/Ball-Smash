@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public TextMeshProUGUI gameOverText;
     public GameObject restartButton;
+    public AudioClip gameOverSFX;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         restartButton.SetActive(true);
         BallSpawner.instance.DestroyAllBalls();
+        AudioManager.Instance.StartCoroutine(AudioManager.Instance.FadeOutMusic(1));
+        AudioManager.Instance.PlaySFX(gameOverSFX);
     }
 
     public void Restart()

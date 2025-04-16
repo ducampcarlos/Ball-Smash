@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
@@ -37,7 +38,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Restaurar estado guardado
         isSFXMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
         isMusicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
 
@@ -91,5 +91,23 @@ public class AudioManager : MonoBehaviour
         {
             audioMixer.SetFloat(parameterName, mute ? -80f : 0f);
         }
+    }
+
+    public IEnumerator FadeOutMusic(float duration)
+    {
+        float currentVolume;
+        audioMixer.GetFloat(MUSIC_PARAM, out currentVolume);
+        float targetVolume = -80f;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            timeElapsed += Time.deltaTime;
+            float newVolume = Mathf.Lerp(currentVolume, targetVolume, timeElapsed / duration);
+            audioMixer.SetFloat(MUSIC_PARAM, newVolume);
+            yield return null;
+        }
+
+        audioMixer.SetFloat(MUSIC_PARAM, targetVolume);
     }
 }
