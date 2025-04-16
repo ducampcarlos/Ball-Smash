@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour
             case BallCategory.Medium:
                 baseSpeed = 12f;
                 addedTime = 2f;
-                ballColor = Color.cyan;
+                ballColor = Color.black;
                 ballScale = new Vector3(1f, 1f, 1f);
                 break;
             case BallCategory.Large:

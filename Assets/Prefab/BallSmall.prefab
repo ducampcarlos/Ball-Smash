@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7080526093027675940}
   - component: {fileID: 28669943567929298}
   - component: {fileID: 1190791755196437073}
+  - component: {fileID: 136460642361523028}
   m_Layer: 0
   m_Name: BallSmall
   m_TagString: Untagged
@@ -141,7 +142,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -172,3 +173,39 @@ MonoBehaviour:
   - {fileID: 8300000, guid: db215035285e8db498ff9d1040c6d3aa, type: 3}
   - {fileID: 8300000, guid: bec5c4a65dda64e468ccb8f382cd9016, type: 3}
   - {fileID: 8300000, guid: d40768647e0d74d43837c2e4142d1378, type: 3}
+--- !u!58 &136460642361523028
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754976173679224228}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.6
